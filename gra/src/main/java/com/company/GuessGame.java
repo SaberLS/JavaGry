@@ -1,9 +1,14 @@
 package com.company;
 
-public abstract class GuessGame<T> extends GAME {
+import java.util.Arrays;
+import java.util.Scanner;
+
+public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> {
   private int nb_chances;
-  private int tries;
+  public int tries;
   private T answer;
+  S[] correctQuesses;
+  S[] wrongQuesses;
 
   public GuessGame(int nb_chances, T answer, String name, String description) {
     super(name, description);
@@ -27,25 +32,45 @@ public abstract class GuessGame<T> extends GAME {
 
   public void setAnswer(T answer) {
     this.answer = answer;
-
-    this.description = "Guess " + answer.getClass().getName();
   }
 
   public T getAnswer() {
     return answer;
   }
 
-  public void guess(T guessed) {
-    this.tries++;
-
-    if (guessed.equals(this.answer)) {
-      this.state = State.WIN;
-    } else if (this.triesLeft() <= 0) {
-      this.state = State.LOSE;
-    }
-  }
-
   public int triesLeft() {
     return nb_chances - tries;
+  }
+
+  public void attempt(Scanner scr) {
+    System.out.println(this.attemptMessage());
+
+    S input = this.getUserInput(scr);
+
+    this.guess(input);
+  }
+
+  public String gameStats() {
+    return this.quit() + "\n"
+        + "Poprawna odpowiedź:\t"
+        + this.getAnswer()
+        + "\nPozostałe Próby:\t"
+        + this.triesLeft() + "/" + this.getChances()
+        + "\nPoprawne:\t"
+        + Arrays.toString(this.correctQuesses)
+        + "\nNie poprawne:\t"
+        + Arrays.toString(this.wrongQuesses);
+  }
+
+  public void play() {
+    this.start();
+
+    Scanner scr = new Scanner(System.in);
+    while (this.state == State.PLAYING) {
+      this.attempt(scr);
+    }
+    scr.close();
+
+    System.out.println(this.gameStats());
   }
 }
