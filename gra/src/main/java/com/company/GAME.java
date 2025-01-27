@@ -18,8 +18,7 @@ public abstract class GAME {
   }
 
   public void start() {
-    System.out.println("Zaczynamy");
-    System.out.println(description);
+    System.out.println("Zaczynamy: " + description);
   }
 
   public String quit() {
