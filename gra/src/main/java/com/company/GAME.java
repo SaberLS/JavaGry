@@ -1,6 +1,6 @@
 package com.company;
 
-public abstract class GAME {
+public abstract class GAME implements GameInterface {
   enum State {
     PLAYING,
     LOSE,
