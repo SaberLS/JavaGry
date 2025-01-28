@@ -18,33 +18,12 @@ public class GuessNumber extends GuessGame<Integer, Integer> {
     Arrays.fill(this.wrongQuesses, null);
   }
 
-  public void guess(Integer guessed) {
-    this.tries++;
-
-    if (guessed == this.getAnswer()) {
-      this.state = State.WIN;
-      this.correctQuesses[0] = guessed;
-    } else {
-      int index = 0;
-      for (Integer element : this.wrongQuesses) {
-        if (element == null)
-          break; // Znalazłem element
-        index++;
-      }
-
-      this.wrongQuesses[index] = guessed;
-
-      if (this.triesLeft() == 0) {
-        this.state = State.LOSE;
-      }
-    }
-  }
-
-  public String attemptMessage() {
-    String str = "Zgadnij liczbę\nPozostałe próby:\t" + this.triesLeft() + "/" + this.getChances() + "\t\n"
-        + "Nie poprawne odpowiedzi " + Arrays.toString(this.wrongQuesses);
-    return str;
-  }
+  // public String attemptMessage() {
+  // String str = "Zgadnij liczbę\nPozostałe próby:\t" + this.triesLeft() + "/" +
+  // this.getChances() + "\t\n"
+  // + "Nie poprawne odpowiedzi " + Arrays.toString(this.wrongQuesses);
+  // return str;
+  // }
 
   public Integer getUserInput(Scanner scr) {
     Integer input = scr.nextInt();

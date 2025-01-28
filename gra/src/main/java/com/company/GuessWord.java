@@ -1,79 +1,71 @@
 package com.company;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class GuessWord extends GuessGame<String> {
-  String correctQuesses;
-  String wrongQuesses;
-
+public class GuessWord extends GuessGame<String, Character> {
   public GuessWord(int nb_chances, String answer, String name, String description) {
-    super(nb_chances, answer, name, description);
-    this.correctQuesses = "?".repeat(answer.length());
-    this.wrongQuesses = "_".repeat(nb_chances);
+    super(nb_chances, answer.replace(' ', '-'), name, description);
   }
 
   public GuessWord(int nb_chances, String answer) {
-    super(nb_chances, answer, "Word Game", "Guess Word");
-    this.correctQuesses = "?".repeat(answer.length());
-    this.wrongQuesses = "_".repeat(nb_chances);
+    super(nb_chances, answer.replace(' ', '-'), "Word Game", "Guess Word");
+
+    int answerLength = answer.length();
+
+    this.correctQuesses = new Character[answerLength];
+    Arrays.fill(this.correctQuesses, null);
+
+    this.wrongQuesses = new Character[nb_chances];
+    Arrays.fill(this.wrongQuesses, null);
   }
 
-  private void wrongAnswer(char guessed) {
-    this.setChances(
-        this.getChances() - 1);
-
-    int index = this.wrongQuesses.indexOf('_');
-    StringBuilder sb = new StringBuilder(this.wrongQuesses);
-
-    sb.setCharAt(index, guessed);
-    this.wrongQuesses = sb.toString();
-
-    if (this.triesLeft() == 0) {
-      this.state = State.LOSE;
-    }
-  }
-
-  private void correctAnswer(int index, char guessed) {
-    StringBuilder sb = new StringBuilder(this.correctQuesses);
+  @Override
+  protected void correctAnswer(Character guessed) {
+    String answer = this.getAnswer();
+    int index = answer.indexOf(guessed);
 
     while (index != -1) {
-      sb.setCharAt(index, guessed);
-      index = this.getAnswer().indexOf(guessed, index + 1); // Szuka kolejnego wystąpienia
+      this.correctQuesses[index] = guessed;
+      index = answer.indexOf(guessed, index + 1);
     }
 
-    this.correctQuesses = sb.toString();
+    StringBuilder sb = new StringBuilder();
+    for (Character c : this.correctQuesses) {
+      sb.append(c);
+    }
+    String corectAnsStr = sb.toString();
 
-    if (this.getAnswer().equals(new String(this.correctQuesses))) {
+    if (answer.equals(corectAnsStr)) {
       this.state = State.WIN;
     }
   }
 
-  public void guess(char guessed) {
+  @Override
+  public Boolean checkAnswer(Character guessed) {
     int index = this.getAnswer().indexOf(guessed);
 
-    if (index == -1) {
-      this.wrongAnswer(guessed);
-    } else {
-      this.correctAnswer(index, guessed);
+    Boolean repeated = false;
+
+    for (Character character : this.correctQuesses) {
+      if (character == guessed) {
+        repeated = true;
+        break;
+      }
     }
+
+    return (index != -1 && !repeated);
   }
 
-  public void play() {
-    this.start();
+  // public String attemptMessage() {
+  // return "Dotychczasowe próby:\t"
+  // + this.triesLeft() + "/" + this.getChances() + "\t\n"
+  // + Arrays.toString(this.wrongQuesses)
+  // + "Do odgadnięcia:\t" + Arrays.toString(this.correctQuesses);
+  // }
 
-    Scanner scr = new Scanner(System.in);
-    char input;
-
-    while (this.state == State.PLAYING) {
-      System.out.println("Zgadnij literę: " + new String(this.correctQuesses));
-      System.out.println("Pozostałe próby: " + this.triesLeft());
-      System.out.println("Nieprawidłowe próby: " + new String(this.wrongQuesses));
-      input = scr.next().charAt(0);
-      this.guess(input);
-    }
-
-    scr.close();
-    String message = this.quit();
-    System.out.println(message);
+  public Character getUserInput(Scanner scr) {
+    Character input = scr.next().charAt(0);
+    return input;
   }
 }

@@ -22,7 +22,7 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
     this.answer = answer;
   }
 
-  public void setChances(int nb_chances) {
+  private void setChances(int nb_chances) {
     this.nb_chances = nb_chances;
   }
 
@@ -30,11 +30,11 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
     return nb_chances;
   }
 
-  public void setAnswer(T answer) {
+  protected void setAnswer(T answer) {
     this.answer = answer;
   }
 
-  public T getAnswer() {
+  protected T getAnswer() {
     return answer;
   }
 
@@ -42,16 +42,8 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
     return nb_chances - tries;
   }
 
-  public void attempt(Scanner scr) {
-    System.out.println(this.attemptMessage());
-
-    S input = this.getUserInput(scr);
-
-    this.guess(input);
-  }
-
   public String gameStats() {
-    return this.quit() + "\n"
+    return "\n"
         + "Poprawna odpowiedź:\t"
         + this.getAnswer()
         + "\nPozostałe Próby:\t"
@@ -62,15 +54,53 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
         + Arrays.toString(this.wrongQuesses);
   }
 
+  protected void correctAnswer(S guessed) {
+    this.state = State.WIN;
+    this.correctQuesses[0] = guessed;
+  }
+
+  protected void wrongAnswer(S guessed) {
+    this.tries++;
+
+    int index = 0;
+    for (S element : this.wrongQuesses) {
+      if (element == null)
+        break; // Znalazłem element
+      index++;
+    }
+    this.wrongQuesses[index] = guessed;
+
+    if (this.triesLeft() == 0) {
+      this.state = State.LOSE;
+    }
+  }
+
+  public Boolean checkAnswer(S guessed) {
+    return (guessed == answer);
+  };
+
+  private void guess(S guessed) {
+    if (this.checkAnswer(guessed)) {
+      this.correctAnswer(guessed);
+    } else {
+      this.wrongAnswer(guessed);
+    }
+  }
+
   public void play() {
-    this.start();
+    System.out.println(this.start());
 
     Scanner scr = new Scanner(System.in);
     while (this.state == State.PLAYING) {
-      this.attempt(scr);
-    }
-    scr.close();
+      System.out.print("-----------------------------------------------------------------");
+      System.out.println(this.gameStats());
 
+      S input = this.getUserInput(scr);
+      this.guess(input);
+    }
+
+    System.out.println("-----------------------------------------------------------------");
+    System.out.println("\t" + this.quitMessage());
     System.out.println(this.gameStats());
   }
 }

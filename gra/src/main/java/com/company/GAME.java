@@ -1,6 +1,8 @@
 package com.company;
 
-public abstract class GAME implements GameInterface {
+import java.util.Scanner;
+
+public abstract class GAME {
   enum State {
     PLAYING,
     LOSE,
@@ -17,11 +19,11 @@ public abstract class GAME implements GameInterface {
     this.state = State.PLAYING;
   }
 
-  public void start() {
-    System.out.println("Zaczynamy: " + description);
+  public String start() {
+    return "Zaczynamy: " + description;
   }
 
-  public String quit() {
+  public String quitMessage() {
     switch (state) {
       case LOSE:
         return "Przegranko";
@@ -31,6 +33,5 @@ public abstract class GAME implements GameInterface {
         return "Żegnam";
     }
   }
-
   // można coś więcej
 }
