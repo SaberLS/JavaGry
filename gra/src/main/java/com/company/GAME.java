@@ -2,13 +2,7 @@ package com.company;
 
 import java.util.Scanner;
 
-public abstract class GAME {
-  enum State {
-    PLAYING,
-    LOSE,
-    WIN
-  }
-
+public abstract class GAME implements GameInterface {
   State state;
   String name;
   String description;
@@ -21,12 +15,29 @@ public abstract class GAME {
     this.state = State.PLAYING;
   }
 
-  public String start() {
-    return "Zaczynamy: " + description;
+  public void lose() {
+    this.state = State.LOSE;
   }
 
-  public String quitMessage() {
-    switch (state) {
+  public void win() {
+    this.state = State.WIN;
+  }
+
+  public void startGame() {
+    System.out.println("Zaczynamy: " + description);
+    this.state = State.PLAYING;
+  }
+
+  public void endGame() {
+    System.out.println("\n\t" + this.endMessage());
+  }
+
+  public Boolean isPlaying() {
+    return this.state == State.PLAYING;
+  }
+
+  private String endMessage() {
+    switch (this.state) {
       case LOSE:
         return "Przegranko";
       case WIN:
@@ -35,5 +46,4 @@ public abstract class GAME {
         return "Żegnam";
     }
   }
-  // można coś więcej
 }
