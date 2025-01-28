@@ -12,8 +12,10 @@ public abstract class GAME {
   State state;
   String name;
   String description;
+  Scanner scanner;
 
-  public GAME(String name, String description) {
+  public GAME(Scanner scanner, String name, String description) {
+    this.scanner = scanner;
     this.name = name;
     this.description = description;
     this.state = State.PLAYING;

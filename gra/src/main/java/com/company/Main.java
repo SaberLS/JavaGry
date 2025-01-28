@@ -1,11 +1,18 @@
 package com.company;
 
+import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+  public static void main(String[] args) {
+    System.out.println("Hello world!");
 
-        GuessWord guessNumber = new GuessWord(5, "szczebrzeszyn");
+    Scanner scr = new Scanner(System.in);
+    GuessWord wordGame = new GuessWord(scr, 5, "odpowiedz");
 
-        guessNumber.play();
-    }
+    GuessNumber numberGame = new GuessNumber(scr, 9, 6);
+
+    wordGame.play();
+    numberGame.play();
+    scr.close();
+  }
 }

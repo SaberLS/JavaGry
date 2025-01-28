@@ -10,14 +10,14 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
   S[] correctQuesses;
   S[] wrongQuesses;
 
-  public GuessGame(int nb_chances, T answer, String name, String description) {
-    super(name, description);
+  public GuessGame(Scanner scanner, int nb_chances, T answer, String name, String description) {
+    super(scanner, name, description);
     this.nb_chances = nb_chances;
     this.answer = answer;
   }
 
-  public GuessGame(int nb_chances, T answer) {
-    super("Guess Game", "Guess Something");
+  public GuessGame(Scanner scanner, int nb_chances, T answer) {
+    super(scanner, "Guess Game", "Guess Something");
     this.nb_chances = nb_chances;
     this.answer = answer;
   }

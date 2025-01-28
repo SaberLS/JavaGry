@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class GuessWord extends GuessGame<String, Character> {
-  public GuessWord(int nb_chances, String answer, String name, String description) {
-    super(nb_chances, answer.replace(' ', '-'), name, description);
+  public GuessWord(Scanner scanner, int nb_chances, String answer, String name, String description) {
+    super(scanner, nb_chances, answer.replace(' ', '-'), name, description);
   }
 
-  public GuessWord(int nb_chances, String answer) {
-    super(nb_chances, answer.replace(' ', '-'), "Word Game", "Guess Word");
+  public GuessWord(Scanner scanner, int nb_chances, String answer) {
+    super(scanner, nb_chances, answer.replace(' ', '-'), "Word Game", "Guess Word");
 
     int answerLength = answer.length();
 
@@ -56,13 +56,6 @@ public class GuessWord extends GuessGame<String, Character> {
 
     return (index != -1 && !repeated);
   }
-
-  // public String attemptMessage() {
-  // return "Dotychczasowe próby:\t"
-  // + this.triesLeft() + "/" + this.getChances() + "\t\n"
-  // + Arrays.toString(this.wrongQuesses)
-  // + "Do odgadnięcia:\t" + Arrays.toString(this.correctQuesses);
-  // }
 
   public Character getUserInput(Scanner scr) {
     Character input = scr.next().charAt(0);
