@@ -20,8 +20,7 @@ public class GuessWord extends GuessGame<String, Character> {
     Arrays.fill(this.wrongQuesses, null);
   }
 
-  @Override
-  protected void correctAnswer(Character guessed) {
+  public void correctAnswer(Character guessed) {
     String answer = this.getAnswer();
     int index = answer.indexOf(guessed);
 
@@ -57,8 +56,8 @@ public class GuessWord extends GuessGame<String, Character> {
     return (index != -1 && !repeated);
   }
 
-  public Character getUserInput(Scanner scr) {
-    Character input = scr.next().charAt(0);
+  public Character getUserInput() {
+    Character input = this.scanner.next().charAt(0);
     return input;
   }
 }

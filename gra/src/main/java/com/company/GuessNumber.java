@@ -18,8 +18,12 @@ public class GuessNumber extends GuessGame<Integer, Integer> {
     Arrays.fill(this.wrongQuesses, null);
   }
 
-  public Integer getUserInput(Scanner scr) {
-    Integer input = scr.nextInt();
+  public Integer getUserInput() {
+    Integer input = this.scanner.nextInt();
     return input;
+  }
+
+  public Boolean checkAnswer(Integer guessed) {
+    return (this.getAnswer().equals(guessed));
   }
 }

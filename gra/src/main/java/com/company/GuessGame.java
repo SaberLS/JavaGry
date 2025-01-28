@@ -54,12 +54,12 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
         + Arrays.toString(this.wrongQuesses);
   }
 
-  protected void correctAnswer(S guessed) {
+  public void correctAnswer(S guessed) {
     this.state = State.WIN;
     this.correctQuesses[0] = guessed;
   }
 
-  protected void wrongAnswer(S guessed) {
+  public void wrongAnswer(S guessed) {
     this.tries++;
 
     int index = 0;
@@ -71,36 +71,21 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
     this.wrongQuesses[index] = guessed;
 
     if (this.triesLeft() == 0) {
-      this.state = State.LOSE;
+      this.lose();
     }
   }
 
-  public Boolean checkAnswer(S guessed) {
-    return (guessed == answer);
-  };
+  // public void play() {
+  // while (this.isPlaying()) {
+  // System.out.print("-----------------------------------------------------------------");
+  // System.out.println(this.gameStats());
 
-  private void guess(S guessed) {
-    if (this.checkAnswer(guessed)) {
-      this.correctAnswer(guessed);
-    } else {
-      this.wrongAnswer(guessed);
-    }
-  }
+  // S input = this.getUserInput();
+  // this.guess(input);
+  // }
 
-  public void play() {
-    System.out.println(this.start());
-
-    Scanner scr = new Scanner(System.in);
-    while (this.state == State.PLAYING) {
-      System.out.print("-----------------------------------------------------------------");
-      System.out.println(this.gameStats());
-
-      S input = this.getUserInput(scr);
-      this.guess(input);
-    }
-
-    System.out.println("-----------------------------------------------------------------");
-    System.out.println("\t" + this.quitMessage());
-    System.out.println(this.gameStats());
-  }
+  // System.out.println("-----------------------------------------------------------------");
+  // System.out.println("\t" + this.quitMessage());
+  // System.out.println(this.gameStats());
+  // }
 }
