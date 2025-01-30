@@ -2,9 +2,10 @@ package com.company;
 
 public interface GameInterface {
   enum State {
+    INIT,
     PLAYING,
     LOSE,
-    WIN
+    WIN,
   };
 
   public void win();
@@ -18,6 +19,8 @@ public interface GameInterface {
   public void endGame();
 
   public void step();
+
+  public String nextStep(String param);
 
   default void play() {
     this.startGame();

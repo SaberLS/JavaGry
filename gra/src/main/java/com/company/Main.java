@@ -9,7 +9,7 @@ public class Main {
     Scanner scr = new Scanner(System.in);
     GuessWord wordGame = new GuessWord(scr, 5, "odpowiedz");
 
-    GuessNumber numberGame = new GuessNumber(scr, 9, 6);
+    GuessNumber numberGame = new GuessNumber(scr, 9, 6, 0, 100);
 
     wordGame.play();
     numberGame.play();

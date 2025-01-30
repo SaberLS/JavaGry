@@ -15,6 +15,12 @@ public abstract class GAME implements GameInterface {
     this.state = State.PLAYING;
   }
 
+  public GAME(String name, String description) {
+    this.name = name;
+    this.description = description;
+    this.state = State.PLAYING;
+  }
+
   public void lose() {
     this.state = State.LOSE;
   }
@@ -29,21 +35,25 @@ public abstract class GAME implements GameInterface {
   }
 
   public void endGame() {
-    System.out.println("\n\t" + this.endMessage());
+    System.out.println("\n\t" + this.stateMessage());
   }
 
   public Boolean isPlaying() {
     return this.state == State.PLAYING;
   }
 
-  private String endMessage() {
+  public String stateMessage() {
     switch (this.state) {
+      case INIT:
+        return "Zaczynamy";
+      case PLAYING:
+        return this.description;
       case LOSE:
         return "Przegranko";
       case WIN:
         return "Gratulacje twoje jest wygranko";
       default:
-        return "Żegnam";
+        return "RAMPAMPAMPAM";
     }
   }
 }

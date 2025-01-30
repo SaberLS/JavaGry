@@ -20,6 +20,10 @@ public class GuessWord extends GuessGame<String, Character> {
     Arrays.fill(this.wrongQuesses, null);
   }
 
+  public String nextStep(String param) {
+    return "";
+  }
+
   public void correctAnswer(Character guessed) {
     String answer = this.getAnswer();
     int index = answer.indexOf(guessed);

@@ -22,6 +22,12 @@ public abstract class GuessGame<T, S> extends GAME implements GuessInterface<S> 
     this.answer = answer;
   }
 
+  public GuessGame(int nb_chances, T answer, String name, String description) {
+    super(name, description);
+    this.nb_chances = nb_chances;
+    this.answer = answer;
+  }
+
   private void setChances(int nb_chances) {
     this.nb_chances = nb_chances;
   }
